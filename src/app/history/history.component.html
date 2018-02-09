@@ -1,0 +1,62 @@
+<div class="center">
+  <h1>
+    History
+  </h1>
+</div>
+<div class="example-container">
+    <mat-table #table [dataSource]="dataSource"> -->
+
+      <!-- 送信または受信ステータス -->
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef>
+           Status <i class="material-icons">compare_arrows</i>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+      </ng-container>
+
+      <!-- 送受信者社員番号 -->
+      <ng-container matColumnDef="position">
+        <mat-header-cell *matHeaderCellDef>
+           No. <i class="material-icons">account_circle</i>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+      </ng-container> -->
+
+      <!-- 送受信者氏名 -->
+      <ng-container matColumnDef="partner">
+        <mat-header-cell *matHeaderCellDef>
+           Partner Name<i class="material-icons">face</i>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.partner}} </mat-cell>
+      </ng-container>
+
+      <!-- 送受信額 -->
+      <ng-container matColumnDef="assets">
+        <mat-header-cell *matHeaderCellDef>
+          Assets <i class="material-icons">attach_money</i>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.assets}} </mat-cell>
+      </ng-container>
+  
+        <!-- 送信日付 -->
+      <ng-container matColumnDef="time">
+        <mat-header-cell *matHeaderCellDef>
+           Time <i class="material-icons">query_builder</i>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.time}} </mat-cell>
+      </ng-container>
+
+        <!-- メッセージ -->
+      <ng-container matColumnDef="message">
+        <mat-header-cell *matHeaderCellDef>
+           Message <i class="material-icons">comment</i>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.message}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+</div>
+

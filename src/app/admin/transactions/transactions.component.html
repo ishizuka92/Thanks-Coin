@@ -1,0 +1,70 @@
+<div class="center">
+    <h1>
+      Transactions
+    </h1>
+  </div>
+<div class="example-container">
+    <mat-table #table [dataSource]="dataSource"> -->
+
+      <!-- 送信者社員番号 -->
+      <ng-container matColumnDef="sendPosition">
+        <mat-header-cell *matHeaderCellDef>
+           Send No. <i class="material-icons">account_circle</i>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.sendPosition}} </mat-cell>
+      </ng-container>
+
+      <!-- 送信者氏名 -->
+      <ng-container matColumnDef="sendName">
+        <mat-header-cell *matHeaderCellDef>
+           Send name <i class="material-icons">face</i>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.sendName}} </mat-cell>
+      </ng-container> -->
+
+      <!-- 送信コイン額 -->
+      <ng-container matColumnDef="sendAssets">
+        <mat-header-cell *matHeaderCellDef>
+           Send Assets <i class="material-icons">attach_money</i>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.sendAssets}} </mat-cell>
+      </ng-container>
+
+      <!-- 受信者社員番号 -->
+      <ng-container matColumnDef="recePosition">
+        <mat-header-cell *matHeaderCellDef>
+          Receive No. <i class="material-icons">account_circle</i>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.recePosition}} </mat-cell>
+      </ng-container>
+  
+      <!-- 受信者氏名 -->
+      <ng-container matColumnDef="receName">
+        <mat-header-cell *matHeaderCellDef>
+           Receive name <i class="material-icons">face</i>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.receName}} </mat-cell>
+      </ng-container> -->
+  
+        <!-- 送信日付 -->
+      <ng-container matColumnDef="sendTime">
+        <mat-header-cell *matHeaderCellDef>
+           Send Time <i class="material-icons">query_builder</i>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.sendTime}} </mat-cell>
+      </ng-container>
+
+       <!-- メッセージ -->
+      <ng-container matColumnDef="message">
+        <mat-header-cell *matHeaderCellDef>
+           Message <i class="material-icons">comment</i>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.message}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+</div>
+

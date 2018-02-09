@@ -1,0 +1,67 @@
+<div class="example-container">
+  <h1>
+    Total assets
+  </h1>
+  <div>
+    <mat-card class="example-card">
+      <mat-icon class="example-icon">account_balance</mat-icon>
+    </mat-card>
+  </div>
+  <h1>
+    Money transfer
+  </h1>
+  <div>
+    <mat-card class="example-card">
+      <mat-icon class="example-icon">face</mat-icon>
+      <mat-form-field class="example-form">
+        <input matInput placeholder="To">
+      </mat-form-field>
+      <mat-icon class="example-icon">attach_money</mat-icon>
+      <mat-form-field class="example-form">
+        <input matInput placeholder="Amount" type="number" class="example-right-align">
+      </mat-form-field>
+      <mat-icon class="example-icon">comment</mat-icon>
+      <mat-form-field class="example-form">
+        <textarea matInput #message maxlength="256" placeholder="Message"></textarea>
+        <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="example-button-row">Send</button>
+    </mat-card>
+  </div>
+  <h1>
+    History
+  </h1>
+</div>
+  <div>
+    <div class="example-container-table mat-elevation-z8">
+      <mat-table #table [dataSource]="dataSource" matSort>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> No. </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="weight">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Weight </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="symbol">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Symbol </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </div>

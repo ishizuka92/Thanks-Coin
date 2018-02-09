@@ -1,0 +1,19 @@
+<div class="example-container">
+  <h1>
+    Login Thanck Coin
+  </h1>
+    <div>
+    <mat-card class="example-card">
+      <mat-icon class="example-icon">account_circle</mat-icon>
+      <mat-form-field class="example-form">
+        <input matInput placeholder="Id" class="example-right-align" #loginUser (keyup)="onKeyUser(loginUser.value)">
+      </mat-form-field>
+      <br/>
+      <mat-icon class="example-icon">lock</mat-icon>
+      <mat-form-field class="example-form">
+        <input matInput placeholder="Password" type="password" class="example-right-align" #loginPassword (keyup)="onKeyPassword(loginPassword.value)">
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="example-button-row" (click)="onClickLogin()">Login</button>
+    </mat-card>
+  </div>
+</div>
