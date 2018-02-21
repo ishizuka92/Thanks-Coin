@@ -12,6 +12,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import {MAT_DIALOG_DATA} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { HistoryComponent } from './history/history.component';
@@ -29,6 +30,7 @@ import { SessionService,Session } from './shared/session/session.service';
 import { LoginService } from './login/login.service';
 import { AssetsService } from './home/assets.service'
 import { ChangepasswordService } from './password/changepassword.service'
+import { MessageDialog } from './common/message-dialog.component';
 
 
 @NgModule({
@@ -44,6 +46,7 @@ import { ChangepasswordService } from './password/changepassword.service'
     TransactionsComponent,
     UsersComponent,
     CreateComponent,
+    MessageDialog
   ],
   imports: [
     BrowserModule,
@@ -68,6 +71,7 @@ import { ChangepasswordService } from './password/changepassword.service'
     AssetsService,
     ChangepasswordService,
   ],
-  bootstrap: [AppComponent]
+  entryComponents: [MessageDialog],
+  bootstrap: [AppComponent,MessageDialog]
 })
 export class AppModule { }
