@@ -3,6 +3,7 @@
     History
   </h1>
 </div>
+
 <div class="example-container">
     <mat-table #table [dataSource]="dataSource"> -->
 
@@ -51,7 +52,9 @@
         <mat-header-cell *matHeaderCellDef>
            Message <i class="material-icons">comment</i>
         </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.message}} </mat-cell>
+        <mat-cell *matCellDef="let element">
+           <button mat-raised-button (click)="openDialog(element.message)">〇</button>
+        </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

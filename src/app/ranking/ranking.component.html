@@ -8,19 +8,25 @@
 
       <!-- 社員番号 -->
       <ng-container matColumnDef="position">
-        <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>
+           No. <i class="material-icons">account_circle</i>
+        </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
       </ng-container>
 
       <!-- 氏名 -->
       <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef> name </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>
+           name <i class="material-icons">face</i>
+        </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
       </ng-container> -->
 
       <!-- 所持コイン -->
       <ng-container matColumnDef="assets">
-        <mat-header-cell *matHeaderCellDef> Assets </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>
+           Assets <i class="material-icons">attach_money</i>
+        </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.assets}} </mat-cell>
       </ng-container>
 
