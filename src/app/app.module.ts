@@ -25,9 +25,11 @@ import { RankingComponent } from './ranking/ranking.component';
 import { TransactionsComponent } from './admin/transactions/transactions.component';
 import { UsersComponent } from './admin/users/users.component';
 import { CreateComponent } from './admin/users/create/create.component';
-import { AuthguardService } from './shared/authguard/authguard.service';
 import { SessionService,Session } from './shared/session/session.service';
 import { LoginService } from './login/login.service';
+import { AssetsService } from './home/assets.service'
+import { ChangepasswordService } from './password/changepassword.service'
+
 
 @NgModule({
   declarations: [
@@ -60,10 +62,11 @@ import { LoginService } from './login/login.service';
     RouterModule,
   ],
   providers: [
-    AuthguardService,
     SessionService,
     Session,
     LoginService,
+    AssetsService,
+    ChangepasswordService,
   ],
   bootstrap: [AppComponent]
 })

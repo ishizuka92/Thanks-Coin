@@ -5,6 +5,11 @@
   <div>
     <mat-card class="example-card">
       <mat-icon class="example-icon">account_balance</mat-icon>
+      <mat-form-field class="example-form">
+          <input matInput disabled>
+          <span matSuffix *ngIf="assets != null">{{assets}}</span>
+        </mat-form-field>
+      <!-- <span *ngIf="assets != null" class="example-right-align">{{assets}}</span> -->
     </mat-card>
   </div>
   <h1>

@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild ,Pipe} from '@angular/core';
 import {MatTableDataSource, MatSort} from '@angular/material';
+import { AssetsService } from './assets.service';
+import { SessionService,Session } from '../shared/session/session.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +9,25 @@ import {MatTableDataSource, MatSort} from '@angular/material';
   styleUrls: ['./home.component.css']
 })
 
-export class HomeComponent {
+export class HomeComponent  implements OnInit {
   displayedColumns = ['position', 'name', 'weight', 'symbol'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
+  
+  loginUser: string;
+  assets: number;
+
+  constructor(private assetsservice: AssetsService,private sessionservice: SessionService) { }
+
+  ngOnInit(){
+    this.assets = this.assetsservice.assetsCheck(this.sessionservice.session.user);
+    // this.sessionservice.sessionState.subscribe((session: Session)=> {
+    //   if(session.login) {
+    //       this.loginUser = session.user;
+    //   }
+    // })
+    // this.assets = this.assetsservice.assetsCheck(this.loginUser);
+    console.log(this.assets);
+  }
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -20,6 +38,11 @@ export class HomeComponent {
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
   }
+}
+
+export interface Assets{
+  user:string;
+  assets:number;
 }
 
 export interface Element {

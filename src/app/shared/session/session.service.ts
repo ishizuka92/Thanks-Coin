@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject}  from 'rxjs/Subject'; 
+import { Subject}  from 'rxjs/Subject';
+import { CanActivate }    from '@angular/router';
 
 @Injectable()
-export class SessionService {
+export class SessionService implements CanActivate{
 
   public session = new Session();
   public sessionSubject = new Subject<Session>();
@@ -16,13 +17,26 @@ export class SessionService {
     this.session.login = true;
     this.session.user = loginUser;
     this.sessionSubject.next(this.session);
+    this.canActivate();
     this.router.navigate(['home']);
-    console.log('loginok2');
+    console.log('loginok3');
   }
 
   logout(): void {
     this.sessionSubject.next(this.session.reset());
-    this.router.navigate(['login']);
+    location.reload();
+    // this.canActivate();
+    // this.router.navigate(['login']);
+  }
+
+  canActivate(){
+    console.log('loginok2');
+    if(this.session.login){
+      return true;
+    }else{
+      this.router.navigate(['login']);
+      return false;
+    }
   }
 
 }
