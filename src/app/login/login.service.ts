@@ -9,7 +9,7 @@ export class LoginService {
 
   loginCheck(loginUser:string,loginPassword:any): boolean{
     for(let u in USER){
-      
+      console.log("u is " + u);
       if(loginUser == USER[u].user && loginPassword == USER[u].password){
 
         return true;

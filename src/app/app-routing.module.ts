@@ -7,7 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { PasswordComponent } from './password/password.component';
 import { RankingComponent } from './ranking/ranking.component';
 import { TransactionsComponent } from './admin/transactions/transactions.component';
-import { AuthguardService } from './shared/authguard/authguard.service';
+import { SessionService } from './shared/session/session.service';
 
 const routes: Routes = [
   {
@@ -18,12 +18,12 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [AuthguardService]
+    canActivate: [SessionService]
   },
   {
     path: 'history',
     component: HistoryComponent,
-    canActivate: [AuthguardService]
+    canActivate: [SessionService]
   },
   {
     path: 'login',
@@ -32,17 +32,17 @@ const routes: Routes = [
   {
     path: 'password',
     component: PasswordComponent,
-    canActivate: [AuthguardService]
+    canActivate: [SessionService]
   },
   {
     path: 'ranking',
     component: RankingComponent,
-    canActivate: [AuthguardService]
+    canActivate: [SessionService]
   },
   {
     path: 'transactions',
     component: TransactionsComponent,
-    canActivate: [AuthguardService]
+    canActivate: [SessionService]
   },
 ];
 
