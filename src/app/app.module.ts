@@ -28,10 +28,12 @@ import { UsersComponent } from './admin/users/users.component';
 import { CreateComponent } from './admin/users/create/create.component';
 import { SessionService,Session } from './shared/session/session.service';
 import { LoginService } from './login/login.service';
-import { AssetsService } from './home/assets.service'
-import { ChangepasswordService } from './password/changepassword.service'
+import { HomeCheckService } from './home/home-check.service'
+import { PasswordService } from './password/password.service'
 import { MessageDialog } from './common/message-dialog.component';
-
+import { HomeDialogComponent } from './home/home-dialog.component';
+import { HomeSendService } from './home/home-send.service';
+import { HomeHistoryService } from './home/home-history.service';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,8 @@ import { MessageDialog } from './common/message-dialog.component';
     TransactionsComponent,
     UsersComponent,
     CreateComponent,
-    MessageDialog
+    MessageDialog,
+    HomeDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,10 +71,12 @@ import { MessageDialog } from './common/message-dialog.component';
     SessionService,
     Session,
     LoginService,
-    AssetsService,
-    ChangepasswordService,
+    HomeCheckService,
+    PasswordService,
+    HomeSendService,
+    HomeHistoryService,
   ],
-  entryComponents: [MessageDialog],
-  bootstrap: [AppComponent,MessageDialog]
+  entryComponents: [MessageDialog,HomeDialogComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { AssetsService } from './assets.service';
+import { HomeCheckService } from './home-check.service';
 
 describe('AssetsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AssetsService]
+      providers: [HomeCheckService]
     });
   });
 
-  it('should be created', inject([AssetsService], (service: AssetsService) => {
+  it('should be created', inject([HomeCheckService], (service: AssetsService) => {
     expect(service).toBeTruthy();
   }));
 });

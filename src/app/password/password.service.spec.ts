@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { ChangepasswordService } from './changepassword.service';
+import { PasswordService } from './password.service';
 
 describe('ChangepasswordService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ChangepasswordService]
+      providers: [PasswordService]
     });
   });
 
-  it('should be created', inject([ChangepasswordService], (service: ChangepasswordService) => {
+  it('should be created', inject([PasswordService], (service: ChangepasswordService) => {
     expect(service).toBeTruthy();
   }));
 });

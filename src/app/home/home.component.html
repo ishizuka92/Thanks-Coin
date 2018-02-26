@@ -19,18 +19,18 @@
     <mat-card class="example-card">
       <mat-icon class="example-icon">face</mat-icon>
       <mat-form-field class="example-form">
-        <input matInput placeholder="To">
+        <input matInput placeholder="To" #toUser (keyup)="onKeyTo(toUser.value)">
       </mat-form-field>
       <mat-icon class="example-icon">attach_money</mat-icon>
       <mat-form-field class="example-form">
-        <input matInput placeholder="Amount" type="number" class="example-right-align">
+        <input matInput placeholder="Amount" type="number" class="example-right-align" #amount (keyup)="onKeyAmount(amount.value)">
       </mat-form-field>
       <mat-icon class="example-icon">comment</mat-icon>
       <mat-form-field class="example-form">
-        <textarea matInput #message maxlength="256" placeholder="Message"></textarea>
+        <textarea matInput maxlength="256" placeholder="Message" #message (keyup)="onKeyMessage(message.value)"></textarea>
         <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
       </mat-form-field>
-      <button mat-raised-button color="primary" class="example-button-row">Send</button>
+      <button mat-raised-button color="primary" class="example-button-row" (click)="onClickSend()">Send</button>
     </mat-card>
   </div>
   <h1>
@@ -41,29 +41,37 @@
     <div class="example-container-table mat-elevation-z8">
       <mat-table #table [dataSource]="dataSource" matSort>
 
-        <!-- Position Column -->
-        <ng-container matColumnDef="position">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> No. </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+        <!-- Time Column -->
+        <ng-container matColumnDef="time">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Time </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.time}} </mat-cell>
         </ng-container>
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+        <!-- From Column -->
+        <ng-container matColumnDef="from">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> From </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.from}} </mat-cell>
         </ng-container>
 
-        <!-- Weight Column -->
-        <ng-container matColumnDef="weight">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Weight </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
+        <!-- To Column -->
+        <ng-container matColumnDef="to">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> To </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.to}} </mat-cell>
         </ng-container>
 
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="symbol">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Symbol </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+        <!-- Amount Column -->
+        <ng-container matColumnDef="amount">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Amount </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
         </ng-container>
+
+        <!-- Message Column -->
+        <ng-container matColumnDef="message">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Message </mat-header-cell>
+            <mat-cell *matCellDef="let element"> 
+              <button mat-raised-button color="primary" *ngIf="element.message != 'no message'" (click)="openMessageDialog(element.message)">Message</button>
+            </mat-cell>
+          </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
