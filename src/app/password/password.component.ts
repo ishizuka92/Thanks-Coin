@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import  {SessionService} from '../shared/session/session.service';
 import {LoginService} from '../login/login.service';
-import {ChangepasswordService} from './changepassword.service';
+import {PasswordService} from './password.service';
 
 @Component({
   selector: 'app-password',
@@ -15,7 +15,7 @@ export class PasswordComponent implements OnInit {
   newPassword1: any;
   newPassword2: any;
 
-  constructor(private logiservice: LoginService,private sessionservice: SessionService,private changepasswordservice:ChangepasswordService) { }
+  constructor(private logiservice: LoginService,private sessionservice: SessionService,private passwordservice:PasswordService) { }
 
   ngOnInit() {
   }
@@ -42,9 +42,8 @@ export class PasswordComponent implements OnInit {
     if(this.logiservice.loginCheck(this.loginUser,this.oldPassword)){
       if(this.newPassword1 == this.newPassword2){
         console.log('onClickChangePassword is OK');
-        console.log(this.changepasswordservice.changePassword(this.loginUser,this.newPassword1));
+        console.log(this.passwordservice.changePassword(this.loginUser,this.newPassword1));
         alert('Successful Changepassword!');
-        this.ngOnInit();
       }else{
         alert('Unmatching Newpassword!');
       }

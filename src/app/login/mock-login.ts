@@ -1,4 +1,7 @@
-import {User} from './login.component';
+export interface User{
+    user:string;
+    password:any;
+}
 
 export const USER: User[] = [
     {user: 'k-ishizuka', password: 'pass1'},

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {USER} from '../login/mock-login'
 
 @Injectable()
-export class ChangepasswordService {
+export class PasswordService {
 
   constructor() { }
 

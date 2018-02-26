@@ -1,6 +1,8 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <img alt="Coin" src="assets/coins.ico">
+    <a routerLink="/home">
+      <img alt="Coin" src="assets/coins.ico">
+    </a>
     <span>ThanksCoin</span>
     <span class="example-spacer"></span>
     <mat-icon *ngIf="loginUser" class="example-icon">account_circle</mat-icon>

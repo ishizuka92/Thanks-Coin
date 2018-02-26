@@ -1,7 +1,13 @@
-import { Component, OnInit, ViewChild ,Pipe} from '@angular/core';
-import {MatTableDataSource, MatSort} from '@angular/material';
-import { AssetsService } from './assets.service';
+import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import {MatTableDataSource,MatDialog,MatDialogRef,MAT_DIALOG_DATA} from '@angular/material';
+import { HomeCheckService } from './home-check.service';
 import { SessionService,Session } from '../shared/session/session.service';
+import { HomeDialogComponent } from './home-dialog.component';
+import { HomeHistoryService } from './home-history.service';
+import { DataSource } from '@angular/cdk/collections';
+import { HistoryElement } from './mock-home';
+import {MessageDialog} from '../common/message-dialog.component';
+import { HomeSendService } from './home-send.service';
 
 @Component({
   selector: 'app-home',
@@ -10,68 +16,86 @@ import { SessionService,Session } from '../shared/session/session.service';
 })
 
 export class HomeComponent  implements OnInit {
-  displayedColumns = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
-  
+   
   loginUser: string;
   assets: number;
+  toUser: string;
+  amount: number;
+  message: string;
+  check: boolean;
+  displayedColumns: string[];
+  dataSource: MatTableDataSource<HistoryElement>; 
 
-  constructor(private assetsservice: AssetsService,private sessionservice: SessionService) { }
+  constructor(private homecheckservice: HomeCheckService,
+              private sessionservice: SessionService,
+              private dialog: MatDialog,
+              private homehistoryservice: HomeHistoryService,
+              private homesendservice: HomeSendService,
+              private changedetectorref:ChangeDetectorRef ) { }
 
   ngOnInit(){
-    this.assets = this.assetsservice.assetsCheck(this.sessionservice.session.user);
-    // this.sessionservice.sessionState.subscribe((session: Session)=> {
-    //   if(session.login) {
-    //       this.loginUser = session.user;
-    //   }
-    // })
-    // this.assets = this.assetsservice.assetsCheck(this.loginUser);
-    console.log(this.assets);
+    this.loginUser = this.sessionservice.session.user;
+    this.assets = this.homecheckservice.assetsCheck(this.loginUser);
+    this.displayedColumns = this.homehistoryservice.getDisplayColumns();
+    this.dataSource = this.homehistoryservice.getDataSource(this.loginUser);
   }
 
-  @ViewChild(MatSort) sort: MatSort;
+  onKeyTo(toUser: string){
+    this.toUser = toUser;
+    console.log('this.toUser is ' + this.toUser);
+  }
 
-  /**
-   * Set the sort after the view init since this component will
-   * be able to query its view for the initialized sort.
-   */
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
+  onKeyAmount(amount: number){
+    this.amount = amount;
+    console.log('this.amount is ' + this.amount);
+  }
+
+  onKeyMessage(message: string){
+    this.message = message;
+    console.log('this.message is ' + this.message);
+  }
+
+  openDialog(){
+    let dialogRef = this.dialog.open(HomeDialogComponent, {
+      width: '500px',
+      data: {toUser: this.toUser, amount: this.amount, message: this.message}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.check = result;
+      console.log('The dialog was closed this.check is ' + this.check);
+      if(this.check){
+        if(this.homesendservice.send(this.loginUser,this.toUser,this.amount,this.message)){
+          alert('Successful Send');
+          this.changedetectorref.detectChanges();
+        }  
+      }
+    });
+
+  }
+
+  openMessageDialog(message:string) {
+    let dialogRef = this.dialog.open(MessageDialog, {
+      width: '500px',
+      data: { messageDisp: message}
+    });
+  }
+
+
+  onClickSend(){
+    if(this.homecheckservice.toCheck(this.toUser)){
+      if(this.homecheckservice.amountCheck(this.loginUser,this.amount)){
+        this.message = this.homecheckservice.messageCheck(this.message);
+        console.log('this.message is ' + this.message);
+        this.openDialog();
+      }
+      else{
+        alert('Incorrect Amount');
+      }
+    }
+    else{
+      alert('ToUser Not Found!');
+    }
   }
 }
-
-export interface Assets{
-  user:string;
-  assets:number;
-}
-
-export interface Element {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: Element[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  {position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na'},
-  {position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg'},
-  {position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al'},
-  {position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si'},
-  {position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P'},
-  {position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S'},
-  {position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl'},
-  {position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar'},
-  {position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K'},
-  {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
-];
 
