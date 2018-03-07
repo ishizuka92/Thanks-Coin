@@ -13,6 +13,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {MAT_DIALOG_DATA} from '@angular/material';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {FlexLayoutModule} from "@angular/flex-layout";
+import {NotificationsModule, NotificationsService} from 'angular4-notify';
+
 
 import { AppComponent } from './app.component';
 import { HistoryComponent } from './history/history.component';
@@ -66,6 +70,9 @@ import { HomeHistoryService } from './home/home-history.service';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     RouterModule,
+    MatGridListModule,
+    FlexLayoutModule,
+    NotificationsModule,
   ],
   providers: [
     SessionService,
@@ -75,6 +82,7 @@ import { HomeHistoryService } from './home/home-history.service';
     PasswordService,
     HomeSendService,
     HomeHistoryService,
+    NotificationsService,
   ],
   entryComponents: [MessageDialog,HomeDialogComponent],
   bootstrap: [AppComponent]

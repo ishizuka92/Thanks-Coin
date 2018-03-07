@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import  {SessionService} from '../shared/session/session.service';
 import {LoginService} from '../login/login.service';
 import {PasswordService} from './password.service';
+import {FormGroup, FormControl, FormBuilder, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-password',
@@ -14,8 +15,17 @@ export class PasswordComponent implements OnInit {
   oldPassword: any;
   newPassword1: any;
   newPassword2: any;
+  form: FormGroup;
 
-  constructor(private logiservice: LoginService,private sessionservice: SessionService,private passwordservice:PasswordService) { }
+  constructor(private logiservice: LoginService,private sessionservice: SessionService,private passwordservice:PasswordService,private formbuilder: FormBuilder) {
+    this.form = formbuilder.group({
+      name: formbuilder.group({
+        oldPassword:'',
+        newPassword1: '',
+        newPassword2: '',
+      }),
+    })
+   }
 
   ngOnInit() {
   }
@@ -43,12 +53,14 @@ export class PasswordComponent implements OnInit {
       if(this.newPassword1 == this.newPassword2){
         console.log('onClickChangePassword is OK');
         console.log(this.passwordservice.changePassword(this.loginUser,this.newPassword1));
-        alert('Successful Changepassword!');
+        alert('パスワード変更に成功しました。');
+        this.form.reset();
+
       }else{
-        alert('Unmatching Newpassword!');
+        alert('新しいパスワードが一致しません。');
       }
     }else{
-      alert('Unmatching Oldpassword!');
+      alert('古いパスワードが間違っています。');
     }
   }
 

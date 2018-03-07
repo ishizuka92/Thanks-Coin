@@ -8,6 +8,9 @@ import { DataSource } from '@angular/cdk/collections';
 import { HistoryElement } from './mock-home';
 import {MessageDialog} from '../common/message-dialog.component';
 import { HomeSendService } from './home-send.service';
+import {NotificationsService} from 'angular4-notify';
+import {FormGroup, FormControl, FormBuilder, Validators} from '@angular/forms';
+
 
 @Component({
   selector: 'app-home',
@@ -25,19 +28,32 @@ export class HomeComponent  implements OnInit {
   check: boolean;
   displayedColumns: string[];
   dataSource: MatTableDataSource<HistoryElement>; 
+  form: FormGroup;
 
   constructor(private homecheckservice: HomeCheckService,
               private sessionservice: SessionService,
               private dialog: MatDialog,
               private homehistoryservice: HomeHistoryService,
               private homesendservice: HomeSendService,
-              private changedetectorref:ChangeDetectorRef ) { }
+              private changedetectorref:ChangeDetectorRef,
+              private notificationsService: NotificationsService,
+              private formbuilder: FormBuilder,
+            ) {
+              this.form = formbuilder.group({
+                name: formbuilder.group({
+                  toUser:'',
+                  amount: '',
+                  message: '',
+                }),
+              })  
+               }
 
   ngOnInit(){
     this.loginUser = this.sessionservice.session.user;
     this.assets = this.homecheckservice.assetsCheck(this.loginUser);
     this.displayedColumns = this.homehistoryservice.getDisplayColumns();
     this.dataSource = this.homehistoryservice.getDataSource(this.loginUser);
+    this.notificationsService.addInfo('test');
   }
 
   onKeyTo(toUser: string){
@@ -66,7 +82,8 @@ export class HomeComponent  implements OnInit {
       console.log('The dialog was closed this.check is ' + this.check);
       if(this.check){
         if(this.homesendservice.send(this.loginUser,this.toUser,this.amount,this.message)){
-          alert('Successful Send');
+          alert('送金に成功しました。');
+          this.form.reset();
           this.changedetectorref.detectChanges();
         }  
       }
@@ -90,11 +107,11 @@ export class HomeComponent  implements OnInit {
         this.openDialog();
       }
       else{
-        alert('Incorrect Amount');
+        alert('不正な金額です。');
       }
     }
     else{
-      alert('ToUser Not Found!');
+      alert('送金先ユーザーIDが見つかりません。');
     }
   }
 }
