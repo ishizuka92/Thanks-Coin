@@ -32,10 +32,10 @@ export class LoginComponent implements OnInit {
     if(this.loginservice.loginCheck(this.loginUser,this.loginPassword)){
       console.log('loginok1');
       this.sessionservice.login(this.loginUser);
-      alert('Successful Login!');
+      alert('ログインに成功しました。');
     }
     else{
-      alert('Unsuccessful Login!');
+      alert('ログインに失敗しました。');
     }
   }
 

@@ -7,6 +7,8 @@
     <span class="example-spacer"></span>
     <mat-icon *ngIf="loginUser" class="example-icon">account_circle</mat-icon>
     <span *ngIf="loginUser">{{loginUser}}</span>
+    <mat-icon *ngIf="assets" class="example-icon">account_balance</mat-icon>
+    <span *ngIf="loginUser">{{assets | number}}</span>
     <button mat-button [matMenuTriggerFor]="menu">
         <mat-icon class="example-icon">more_vert</mat-icon>
     </button>
@@ -14,43 +16,43 @@
       <button *ngIf="loginUser" mat-menu-item>
         <a routerLink="/home">
           <mat-icon class="example-icon">home</mat-icon>
-          <span>Home</span>
+          <span>ホーム</span>
         </a>
         </button>
       <button *ngIf="loginUser" mat-menu-item>
         <a routerLink="/history">
           <mat-icon class="example-icon">history</mat-icon>
-          <span>History</span>
+          <span>送受信履歴</span>
         </a>
       </button>
       <button *ngIf="loginUser" mat-menu-item>
         <!-- <a routerLink="/login"> -->
           <mat-icon class="example-icon">exit_to_app</mat-icon>
-          <span (click)="logout()">Logout</span>
+          <span (click)="logout()">ログアウト</span>
         <!-- </a> -->
       </button>
       <button *ngIf="loginUser" mat-menu-item>
           <a routerLink="/password">
             <mat-icon class="example-icon">lock_outline</mat-icon>
-            <span>Password</span>
+            <span>パスワード変更</span>
           </a>
       </button>
       <button *ngIf="loginUser" mat-menu-item>
           <a routerLink="/ranking">
             <mat-icon class="example-icon">grade</mat-icon>
-            <span>Ranking</span>
+            <span>ランキング</span>
           </a>
       </button>
       <button *ngIf="loginUser" mat-menu-item>
           <a routerLink="/transactions">
             <mat-icon class="example-icon">build</mat-icon>
-            <span>Transactions</span>
+            <span>すべての送受信履歴</span>
           </a>
       </button>
       <button *ngIf="loginUser == null" mat-menu-item>
           <a routerLink="login">
             <mat-icon class="example-icon">directions_walk</mat-icon>
-            <span>Login</span>
+            <span>ログイン</span>
           </a>
       </button>
     </mat-menu>

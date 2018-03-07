@@ -1,5 +1,9 @@
-<div class="example-container">
-  <h1>
+<div fxLyout="row">
+<!-- <mat-grid-list cols="3" rowHeight="1:1.6" >
+<mat-grid-tile colspan="1"> -->
+  <!-- <div class="example-container" fxFlex> -->
+  <div fxFlex>
+  <!-- <h1>
     Total assets
   </h1>
   <div>
@@ -7,74 +11,81 @@
       <mat-icon class="example-icon">account_balance</mat-icon>
       <mat-form-field class="example-form">
           <input matInput disabled>
-          <span matSuffix *ngIf="assets != null">{{assets}}</span>
+          <span matSuffix *ngIf="assets != null">{{assets | number}}</span>
         </mat-form-field>
-      <!-- <span *ngIf="assets != null" class="example-right-align">{{assets}}</span> -->
     </mat-card>
-  </div>
-  <h1>
-    Money transfer
-  </h1>
-  <div>
+  </div> -->
+    <h1>
+      送金
+    </h1>
     <mat-card class="example-card">
-      <mat-icon class="example-icon">face</mat-icon>
+      <form [formGroup]="form">
+      <div formGroupName="name">
       <mat-form-field class="example-form">
-        <input matInput placeholder="To" #toUser (keyup)="onKeyTo(toUser.value)">
+        <mat-placeholder>
+          <mat-icon class="example-icon">face</mat-icon>送金先ユーザーID
+        </mat-placeholder>
+        <input matInput formControlName="toUser" #toUser (keyup)="onKeyTo(toUser.value)">
       </mat-form-field>
-      <mat-icon class="example-icon">attach_money</mat-icon>
       <mat-form-field class="example-form">
-        <input matInput placeholder="Amount" type="number" class="example-right-align" #amount (keyup)="onKeyAmount(amount.value)">
+        <mat-placeholder>
+          <mat-icon class="example-icon">attach_money</mat-icon>金額
+        </mat-placeholder>
+        <input matInput formControlName="amount" type="number" class="example-right-align" #amount (keyup)="onKeyAmount(amount.value)">
       </mat-form-field>
-      <mat-icon class="example-icon">comment</mat-icon>
       <mat-form-field class="example-form">
-        <textarea matInput maxlength="256" placeholder="Message" #message (keyup)="onKeyMessage(message.value)"></textarea>
+        <mat-placeholder>
+          <mat-icon class="example-icon">comment</mat-icon>メッセージ
+        </mat-placeholder>
+        <textarea formControlName="message" matInput maxlength="256" #message (keyup)="onKeyMessage(message.value)"></textarea>
         <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
       </mat-form-field>
-      <button mat-raised-button color="primary" class="example-button-row" (click)="onClickSend()">Send</button>
+      <button mat-raised-button color="primary" class="example-button-row" (click)="onClickSend()">送金</button>
+      </div>
+      </form>
     </mat-card>
   </div>
+<!-- </mat-grid-tile> -->
+
+<!-- <mat-grid-tile colspan="2"> -->
+  <div fxFlex>
   <h1>
-    History
+    送受信履歴
   </h1>
-</div>
-  <div>
-    <div class="example-container-table mat-elevation-z8">
-      <mat-table #table [dataSource]="dataSource" matSort>
-
-        <!-- Time Column -->
-        <ng-container matColumnDef="time">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Time </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.time}} </mat-cell>
+  <div class="example-container-table mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource" matSort>
+      <!-- Time Column -->
+      <ng-container matColumnDef="time">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> 日時 </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.time}} </mat-cell>
+      </ng-container>
+      <!-- From Column -->
+      <ng-container matColumnDef="from">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> 送金元ユーザーID </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.from}} </mat-cell>
+      </ng-container>
+      <!-- To Column -->
+      <ng-container matColumnDef="to">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> 送金先ユーザーID </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.to}} </mat-cell>
+      </ng-container>
+      <!-- Amount Column -->
+      <ng-container matColumnDef="amount">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> 金額 </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
+      </ng-container>
+      <!-- Message Column -->
+      <ng-container matColumnDef="message">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> メッセージ </mat-header-cell>
+          <mat-cell *matCellDef="let element"> 
+            <button mat-raised-button color="primary" *ngIf="element.message != 'no message'" (click)="openMessageDialog(element.message)">メッセージ</button>
+          </mat-cell>
         </ng-container>
-
-        <!-- From Column -->
-        <ng-container matColumnDef="from">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> From </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.from}} </mat-cell>
-        </ng-container>
-
-        <!-- To Column -->
-        <ng-container matColumnDef="to">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> To </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.to}} </mat-cell>
-        </ng-container>
-
-        <!-- Amount Column -->
-        <ng-container matColumnDef="amount">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Amount </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
-        </ng-container>
-
-        <!-- Message Column -->
-        <ng-container matColumnDef="message">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Message </mat-header-cell>
-            <mat-cell *matCellDef="let element"> 
-              <button mat-raised-button color="primary" *ngIf="element.message != 'no message'" (click)="openMessageDialog(element.message)">Message</button>
-            </mat-cell>
-          </ng-container>
-
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-      </mat-table>
-    </div>
+       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
   </div>
+  </div>
+<!-- </mat-grid-tile>
+</mat-grid-list> -->
+</div>
