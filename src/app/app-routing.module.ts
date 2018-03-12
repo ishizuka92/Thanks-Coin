@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { PasswordComponent } from './password/password.component';
 import { RankingComponent } from './ranking/ranking.component';
 import { TransactionsComponent } from './admin/transactions/transactions.component';
+import { MainComponent } from './main/main.component';
 import { SessionService } from './shared/session/session.service';
 
 const routes: Routes = [
@@ -42,6 +43,11 @@ const routes: Routes = [
   {
     path: 'transactions',
     component: TransactionsComponent,
+    canActivate: [SessionService]
+  },
+  {
+    path: 'main',
+    component: MainComponent,
     canActivate: [SessionService]
   },
 ];

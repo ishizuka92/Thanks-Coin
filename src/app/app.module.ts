@@ -16,7 +16,8 @@ import {MAT_DIALOG_DATA} from '@angular/material';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {NotificationsModule, NotificationsService} from 'angular4-notify';
-
+import { HttpClientModule } from '@angular/common/http';
+import { HttpModule }    from "@angular/http";
 
 import { AppComponent } from './app.component';
 import { HistoryComponent } from './history/history.component';
@@ -73,6 +74,8 @@ import { HomeHistoryService } from './home/home-history.service';
     MatGridListModule,
     FlexLayoutModule,
     NotificationsModule,
+    HttpClientModule,
+    HttpModule,
   ],
   providers: [
     SessionService,
@@ -83,6 +86,7 @@ import { HomeHistoryService } from './home/home-history.service';
     HomeSendService,
     HomeHistoryService,
     NotificationsService,
+    NavbarComponent,
   ],
   entryComponents: [MessageDialog,HomeDialogComponent],
   bootstrap: [AppComponent]

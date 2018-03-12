@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import {USER} from './mock-home'
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
-
 @Injectable()
 export class HomeCheckService {
 
   constructor() { }
-
+  
   assetsCheck(loginUser:string): number{
     for(let u in USER){
       if(loginUser == USER[u].user){

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import  {SessionService,Session} from '../session/session.service';
 import { HomeCheckService } from '../../home/home-check.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-navbar',
@@ -9,18 +10,34 @@ import { HomeCheckService } from '../../home/home-check.service';
 })
 export class NavbarComponent implements OnInit {
 
-  loginUser: string;
-  assets: number;
+  public loginUser: string;
+  public assets: number;
+  private apiUrl ='http://10.133.210.147:3000/api/Wallet/';
 
-  constructor(private sessionservice: SessionService, private homecheckservice:HomeCheckService ) { }
+  constructor(
+    private sessionservice: SessionService, 
+    private homecheckservice:HomeCheckService,
+    private http:HttpClient
+   ) { }
 
-  ngOnInit() {
+   ngOnInit() {
     this.sessionservice.sessionState.subscribe((session: Session)=> {
+      console.log('Oops');
       if(session.login) {
           this.loginUser = session.user;
-          this.assets = this.homecheckservice.assetsCheck(this.loginUser);
+          this.http.get<ApiResponse>(this.apiUrl+this.loginUser).subscribe(response => {
+            this.assets = response.amount;
+          });
       }
   })
+
+  // ngOnInit() {
+  //   this.sessionservice.sessionState.subscribe((session: Session)=> {
+  //     if(session.login) {
+  //         this.loginUser = session.user;
+  //         this.assets = this.homecheckservice.assetsCheck(this.loginUser);
+  //     }
+  // })
 
 
 
@@ -30,4 +47,8 @@ export class NavbarComponent implements OnInit {
     this.sessionservice.logout();
     console.log('logout1');
   }
+}
+
+interface ApiResponse {
+  amount: number;
 }
