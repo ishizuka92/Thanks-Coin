@@ -1,62 +1,50 @@
 import { Injectable } from '@angular/core';
 import {MatTableDataSource} from '@angular/material';
+import { HISTORY_ELEMENT_DATA,HistoryElement } from '../home/mock-home';
+import { HttpClient } from '@angular/common/http';
+import 'rxjs/add/operator/map';
+import 'rxjs/Rx';
 
 @Injectable()
 export class HistoryService {
-  constructor() { }
+  private apiUrlTransaction ='http://10.133.210.147:3000/api/queries/selectTransaction';
+
+  constructor(private httpclient: HttpClient) { }
 
   // 表示カラム取得メソッド
   getDisplayColumns(){
-    return ['status',
-            'position', 
-            'partner',
-            'assets',
-            'time',
-            'message']; // 表示するカラム
+    return ['time', 'from', 'to', 'amount','message'];
   }
 
   // 台帳からデータを取得する
   // 枚数が同じ場合は社員番号の昇順で表示
   getDataSource(){
-    // 型宣言
-    let dataSource = new MatTableDataSource<Element>(ELEMENT_DATA); //表示するリスト一覧
+    return this.httpclient.get(this.apiUrlTransaction)
+    .map(res => res as HistoryElement[]);
+  }
 
-    let result: boolean = false;
+  getDataSourceByUser(loginuser:string,response:HistoryElement[]){
 
-    // 取得したデータのチェック（0件だったらアラートなど）
-    result = checkData(dataSource);
+    let history_element_data:HistoryElement[] = [];
 
+    for(let h in response){
+      // console.log('h is '+ h);
+      // console.log('history_element_data.length is '+ history_element_data.length);
+      // console.log('response[h].sender is '+ response[h].sender.slice(34));
+      if(loginuser == response[h].sender.slice(34) || loginuser == response[h].receiver.slice(34)){
+        history_element_data.push(response[h]);
+        //HISTORY_ELEMENT_DATA.splice[h];
+        console.log('push!');
+      }
+    }
+    history_element_data.sort((a,b) => {
+      if(a.timestamp < b.timestamp) return 1;
+      if(a.timestamp > b.timestamp) return -1;
+      return 0;
+    });
+    let dataSource = new MatTableDataSource<HistoryElement>(history_element_data); 
     return dataSource;
   }
 
 }
 
-// 取得したデータをチェックする
-function checkData(element:MatTableDataSource<Element>):boolean{
-  
-    // nullチェック
-    if(element == null){
-       
-      return false;
-    }
-      return true;
-    }
-
-// ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ここから下はモック用↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓//
-
-// リストの項目宣言(台帳から取得してくる項目をここで宣言)
-export interface Element {
-  status: string;
-  position: string;
-  partner: string;
-  assets: number;
-  time: string;
-  message: string;
-}
-// モック用 適当な表示用リスト
-const ELEMENT_DATA: Element[] = [
-  {status: 'send',    position: '100001', partner: 'SEND TARO', assets: 200, time: '2018-03-01 00:00:00', message: 'thx!'},
-  {status: 'send',    position: '100002', partner: 'SEND JIRO', assets: 200, time: '2018-03-01 00:00:00', message: 'thank you!'},
-  {status: 'receive', position: '100003', partner: 'RECV TARO', assets: 300, time: '2018-03-01 00:00:00', message: 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやいゆえよわいをえんあいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやいゆえよわいをえんあいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやいゆえよわいをえんあいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやいゆえよわいをえんあいうえおかきくけこさしすせそたちつてとはひふへほまみむめもやいゆえよわいをえんあいうえおかきくけこさしすせそたちつてとはひふへほまみむめもやいゆえよわ'}, 
-  {status: 'seceive', position: '100004', partner: 'RECV JIRO', assets: 300, time: '2018-03-01 00:00:00', message: 'Hoge Hoge Fooo!'}
-];

@@ -18,6 +18,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 import {NotificationsModule, NotificationsService} from 'angular4-notify';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule }    from "@angular/http";
+import {MatSortModule} from '@angular/material/sort';
 
 import { AppComponent } from './app.component';
 import { HistoryComponent } from './history/history.component';
@@ -76,6 +77,7 @@ import { HomeHistoryService } from './home/home-history.service';
     NotificationsModule,
     HttpClientModule,
     HttpModule,
+    MatSortModule,
   ],
   providers: [
     SessionService,

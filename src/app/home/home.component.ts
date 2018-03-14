@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
-import {MatTableDataSource,MatDialog,MatDialogRef,MAT_DIALOG_DATA} from '@angular/material';
+import { Component, OnInit, ChangeDetectorRef,AfterViewInit,ViewChild} from '@angular/core';
+import {MatTableDataSource,MatDialog,MatDialogRef,MAT_DIALOG_DATA,MatSort} from '@angular/material';
 import { HomeCheckService } from './home-check.service';
 import { SessionService,Session } from '../shared/session/session.service';
 import { HomeDialogComponent } from './home-dialog.component';
@@ -39,6 +39,7 @@ export class HomeComponent  implements OnInit {
   private apiUrlUser ='http://10.133.210.147:3000/api/User';
   private apiUrlTransferCoin = 'http://10.133.210.147:3000/api/TransferCoin';
   private apiUrlWallet ='http://10.133.210.147:3000/api/Wallet/';
+  private apiUrlTransaction ='http://10.133.210.147:3000/api/queries/selectTransaction';
   headers: Headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
   options: RequestOptions = new RequestOptions({ headers: this.headers });
   // postData:PostData ={
@@ -75,8 +76,18 @@ export class HomeComponent  implements OnInit {
     this.loginUser = this.sessionservice.session.user;
     this.assets = this.homecheckservice.assetsCheck(this.loginUser);
     this.displayedColumns = this.homehistoryservice.getDisplayColumns();
-    this.dataSource = this.homehistoryservice.getDataSource(this.loginUser);
+    //this.dataSource = this.homehistoryservice.getDataSource(this.loginUser);
     //this.notificationsService.addInfo('test');
+    this.homehistoryservice.getDataSource().subscribe(response =>{
+      this.dataSource = this.homehistoryservice.getDataSourceByUser(this.loginUser,response);
+    });
+    
+  }
+
+  @ViewChild(MatSort) sort: MatSort;
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
   }
 
   onKeyTo(toUser: string){
@@ -120,7 +131,10 @@ export class HomeComponent  implements OnInit {
           .subscribe(
             result => {
               console.log('result is '+result);
-              this.sessionservice.login(this.loginUser);              
+              this.sessionservice.login(this.loginUser);
+              this.homehistoryservice.getDataSource().subscribe(response =>{
+                this.dataSource = this.homehistoryservice.getDataSourceByUser(this.loginUser,response);
+              });              
             },
             error => console.log('error is '+error)
           );
@@ -187,15 +201,15 @@ export class HomeComponent  implements OnInit {
   //     alert('送金先ユーザーIDが見つかりません。');
   //   }
 
-  private extractData(res: Response) {
-    let body = res.json();
-    return body || {};
-  }
+  // private extractData(res: Response) {
+  //   let body = res.json();
+  //   return body || {};
+  // }
 
-  private handleErrorObservable (error: Response | any) {
-    console.error(error.message || error);
-    return Observable.throw(error.message || error);
-  }
+  // private handleErrorObservable (error: Response | any) {
+  //   console.error(error.message || error);
+  //   return Observable.throw(error.message || error);
+  // }
 
 }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { USER, HISTORY_ELEMENT_DATA } from './mock-home';
+import { USER } from './mock-home';
 
 @Injectable()
 export class HomeSendService {

@@ -57,17 +57,17 @@
       <!-- Time Column -->
       <ng-container matColumnDef="time">
         <mat-header-cell *matHeaderCellDef mat-sort-header> 日時 </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.time}} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.timestamp | date:'yyyy-MM-dd HH:mm'}} </mat-cell>
       </ng-container>
       <!-- From Column -->
       <ng-container matColumnDef="from">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> 送金元ユーザーID </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.from}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> 送信者ID </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.sender | slice: 34}} </mat-cell>
       </ng-container>
       <!-- To Column -->
       <ng-container matColumnDef="to">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> 送金先ユーザーID </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.to}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> 受信者ID </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.receiver | slice: 34}} </mat-cell>
       </ng-container>
       <!-- Amount Column -->
       <ng-container matColumnDef="amount">
@@ -75,11 +75,17 @@
         <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
       </ng-container>
       <!-- Message Column -->
-      <ng-container matColumnDef="message">
+      <!-- <ng-container matColumnDef="message">
           <mat-header-cell *matHeaderCellDef mat-sort-header> メッセージ </mat-header-cell>
           <mat-cell *matCellDef="let element"> 
-            <button mat-raised-button color="primary" *ngIf="element.message != 'no message'" (click)="openMessageDialog(element.message)">メッセージ</button>
+            <button mat-raised-button color="primary" *ngIf="element.message.length > 17" (click)="openMessageDialog(element.message)">メッセージ</button>
           </mat-cell>
+        </ng-container> -->
+        <ng-container matColumnDef="message">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+             メッセージ 
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.message}} </mat-cell>
         </ng-container>
        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
