@@ -18,17 +18,17 @@
       <!-- 送受信者氏名 -->
       <ng-container matColumnDef="from">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
-           送信者ID<!--<i class="material-icons">face</i> -->
+           送信者<!--<i class="material-icons">face</i> -->
         </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.sender | slice: 34}} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.sender}} </mat-cell>
       </ng-container>
 
       <!-- 受信者氏名 -->
       <ng-container matColumnDef="to">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
-           受信者ID <!--<i class="material-icons">compare_arrows</i> -->
+           受信者 <!--<i class="material-icons">compare_arrows</i> -->
         </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.receiver | slice: 34}} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.receiver}} </mat-cell>
       </ng-container>
 
       <!-- 送受信額 -->
