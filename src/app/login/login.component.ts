@@ -25,22 +25,17 @@ export class LoginComponent implements OnInit {
 
   onKeyUser(loginUser: string){
     this.loginUser = loginUser;
-    console.log('this.loginUser is ' + this.loginUser);
   }
 
   onKeyPassword(loginPassword: any){
     this.loginPassword = loginPassword;
-    console.log('this.loginPassword is ' + this.loginPassword);
   }
 
   onClickLogin(){
     this.http.get(this.apiUrl).subscribe(response => {
       for(let u in response){
-        console.log('response[u].id is '+response[u].id);
         if(this.loginUser == response[u].id && this.loginPassword == response[u].password){
-          console.log('loginok1');
           this.sessionservice.login(this.loginUser);
-          alert('ログインに成功しました。');
           this.check=false;
           break;
         } 
