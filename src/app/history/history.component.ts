@@ -1,9 +1,11 @@
 import { Component, OnInit, Inject, ViewChild, AfterViewInit } from '@angular/core';
-import {MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort} from '@angular/material';
-import {HistoryService} from './history.service';
-import {MessageDialog} from '../common/message-dialog.component';
+import { MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort } from '@angular/material';
+
+import { HistoryService } from './history.service';
+import { MessageDialog } from '../common/message-dialog.component';
 import { HistoryElement } from '../home/mock-home';
-import { SessionService,Session } from '../shared/session/session.service';
+import { SessionService, Session } from '../shared/session/session.service';
+import { User } from '../shared/user/user';
 
 
 /**
@@ -15,16 +17,18 @@ import { SessionService,Session } from '../shared/session/session.service';
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.css']
 })
-export class HistoryComponent{
+export class HistoryComponent implements OnInit, AfterViewInit {
 
   // サービス利用の宣言
   constructor(private service: HistoryService,
-              public dialog: MatDialog,
-              private sessionservice:SessionService) { }
+    public dialog: MatDialog,
+    private sessionservice: SessionService) { }
 
   public displayedColumns;
   public dataSource;
-  loginUser: string;
+  loginUser: User;
+
+  @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
     this.loginUser = this.sessionservice.session.user;
@@ -35,22 +39,19 @@ export class HistoryComponent{
       .subscribe(
         // 取得成功時処理
         res => {
-          console.log(res);
-          console.table(res);
-          this.dataSource = this.service.getDataSourceByUser(this.loginUser,res); //表示するリスト一覧  
-        } ,
+          this.dataSource = this.service.getDataSourceByUser(this.loginUser.id, res); // 表示するリスト一覧
+        },
         // 取得エラー時処理（VPN接続していない等接続エラーやタイムアウト）
-        error => {  
-          alert("データ取得時エラー発生");
+        error => {
+          alert('データ取得時エラー発生');
         }
-      )
-    }
-    
-    @ViewChild(MatSort) sort: MatSort;
-  
-    ngAfterViewInit() {
-      this.dataSource.sort = this.sort;
-    }
+      );
+  }
+
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+  }
 
 
   // メッセージ用ダイアログ

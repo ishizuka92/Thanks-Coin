@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { PasswordComponent } from './password/password.component';
 import { RankingComponent } from './ranking/ranking.component';
 import { TransactionsComponent } from './admin/transactions/transactions.component';
+import { UsersComponent } from './admin/users/users.component';
 import { MainComponent } from './main/main.component';
 import { SessionService } from './shared/session/session.service';
 
@@ -41,8 +42,13 @@ const routes: Routes = [
     canActivate: [SessionService]
   },
   {
-    path: 'transactions',
+    path: 'admin/transactions',
     component: TransactionsComponent,
+    canActivate: [SessionService]
+  },
+  {
+    path: 'admin/users',
+    component: UsersComponent,
     canActivate: [SessionService]
   },
   {

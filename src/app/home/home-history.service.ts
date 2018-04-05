@@ -1,52 +1,55 @@
 import { Injectable } from '@angular/core';
-import {MatTableDataSource} from '@angular/material';
-import { HISTORY_ELEMENT_DATA,HistoryElement } from './mock-home';
+import { MatTableDataSource } from '@angular/material';
+import { HISTORY_ELEMENT_DATA, HistoryElement } from './mock-home';
 import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 
+import { SessionService } from '../shared/session/session.service';
+import { User } from '../shared/user/user'
+
 @Injectable()
 export class HomeHistoryService {
 
-  private apiUrlTransaction ='http://10.133.210.147:3000/api/queries/selectTransaction';
+  private apiUrlTransaction = 'http://10.133.210.147:3000/api/queries/selectTransaction';
 
-  constructor(private httpclient: HttpClient) { }
+  constructor(private httpclient: HttpClient,
+    private sessionService: SessionService) { }
 
-  getDisplayColumns(){
-    return ['time', 'from', 'to', 'amount','message'];
+  getDisplayColumns() {
+    return ['time', 'from', 'to', 'amount', 'message'];
   }
 
-  getDataSource(){
+  getDataSource() {
     return this.httpclient.get(this.apiUrlTransaction)
-    .map(res => res as HistoryElement[]);
+      .map(res => res as HistoryElement[]);
   }
 
+  getDataSourceByUser(loginuser: string, response: HistoryElement[]) {
 
-  getDataSourceByUser(loginuser:string,response:HistoryElement[]){
+    const history_element_data: HistoryElement[] = Array.from(response)
+      .sort((a, b) => {
+        if (a.timestamp < b.timestamp) return 1;
+        if (a.timestamp > b.timestamp) return -1;
+        return 0;
+      })
+      .map(r => {
+        r.sender = r.sender.slice(34);
+        r.receiver = r.receiver.slice(34);
+        return r;
+      })
+      .filter(r => loginuser === r.sender || loginuser === r.receiver)
+      .map(r => {
+        const sender: User = this.sessionService.session.users.filter(u => u.id === r.sender)[0];
+        r.sender = sender.lastName + sender.firstName;
+        const receiver: User = this.sessionService.session.users.filter(u => u.id === r.receiver)[0];
+        r.receiver = receiver.lastName + receiver.firstName;
+        return r;
+      })
+      .slice(0, 10);
 
-    let history_element_data:HistoryElement[] = [];
 
-    response.sort((a,b) => {
-      if(a.timestamp < b.timestamp) return 1;
-      if(a.timestamp > b.timestamp) return -1;
-      return 0;
-    });
-
-    for(let h in response){
-      // console.log('h is '+ h);
-      // console.log('history_element_data.length is '+ history_element_data.length);
-      // console.log('response[h].sender is '+ response[h].sender.slice(34));
-      if(loginuser == response[h].sender.slice(34) || loginuser == response[h].receiver.slice(34)){
-        history_element_data.push(response[h]);
-        //HISTORY_ELEMENT_DATA.splice[h];
-        console.log('push!');
-      }
-      if( history_element_data.length == 10){
-        break;
-      }
-    }
-    
-    let dataSource = new MatTableDataSource<HistoryElement>(history_element_data); 
+    let dataSource = new MatTableDataSource<HistoryElement>(history_element_data);
     return dataSource;
   }
 }
