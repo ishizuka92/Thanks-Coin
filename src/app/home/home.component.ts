@@ -45,10 +45,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<HistoryElement>;
   form: FormGroup;
   filteredUsers: Observable<User[]>;
-  private apiUrlUser = 'http://10.129.23.9:3000/api/User';
-  private apiUrlTransferCoin = 'http://10.129.23.9:3000/api/TransferCoin';
-  private apiUrlWallet = 'http://10.129.23.9:3000/api/Wallet/';
-  private apiUrlTransaction = 'http://10.129.23.9:3000/api/queries/selectTransaction';
+  private apiUrlUser = 'https://10.129.23.9:3000/api/User';
+  private apiUrlTransferCoin = 'https://10.129.23.9:3000/api/TransferCoin';
+  private apiUrlWallet = 'https://10.129.23.9:3000/api/Wallet/';
+  private apiUrlTransaction = 'https://10.129.23.9:3000/api/queries/selectTransaction';
   headers: Headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
   options: RequestOptions = new RequestOptions({ headers: this.headers });
 
