@@ -14,7 +14,7 @@ export class TransactionsService {
     return ['timestamp',
             'sender',
             'receiver',
-            'amount', 
+            'amount',
             'message']; // 表示するカラム
   }
 
@@ -23,9 +23,9 @@ export class TransactionsService {
   getDataSource(){
 // --------★★追加ここから★★---------
     // APIと通信
-    return this.http.get("http://10.133.210.147:3000/api/queries/selectTransaction")
+    return this.http.get("http://10.129.23.9:3000/api/queries/selectTransaction")
     .map(res => res as Element[]);
-    
+
 // --------★★追加ここまで★★---------
   }
 
@@ -36,7 +36,7 @@ export class TransactionsService {
       if(a.timestamp > b.timestamp) return -1;
       return 0;
     });
-    let dataSource = new MatTableDataSource<Element>(response); 
+    let dataSource = new MatTableDataSource<Element>(response);
     return dataSource;
   }
 
@@ -44,10 +44,10 @@ export class TransactionsService {
 
 // // 取得したデータをチェックする
 // function checkData(element:MatTableDataSource<Element>):boolean{
-  
+
 //     // nullチェック
 //     if(element == null){
-       
+
 //       return false;
 //     }
 //       return true;
