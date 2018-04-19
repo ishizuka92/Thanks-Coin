@@ -16,8 +16,8 @@ export class SessionService implements CanActivate {
   constructor(private router: Router,
     private userService: UserService) { }
 
-  //ユーザー認証サービスOKならこのメソッドを呼び出す。
-  login(loginUser: string): void {
+  // ユーザー認証サービスOKならこのメソッドを呼び出す。
+  login(loginUser: User): void {
     this.session.login = true;
     this.session.user = loginUser;
     this.userService.getAll().subscribe(users => {
@@ -48,18 +48,18 @@ export class SessionService implements CanActivate {
 
 export class Session {
   login: boolean;
-  user: string;
+  user: User;
   users: Array<User>;
 
   constructor() {
     this.login = false;
-    this.user = "";
+    this.user = undefined;
     this.users = [];
   }
 
   reset(): Session {
     this.login = false;
-    this.user = "";
+    this.user = undefined;
     this.users = [];
     return this;
   }

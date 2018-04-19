@@ -41,6 +41,8 @@ import { HomeDialogComponent } from './home/home-dialog.component';
 import { HomeSendService } from './home/home-send.service';
 import { HomeHistoryService } from './home/home-history.service';
 import { UserService } from './shared/user/user.service';
+import { WalletService } from './shared/wallet/wallet.service';
+
 
 @NgModule({
   declarations: [
@@ -91,7 +93,8 @@ import { UserService } from './shared/user/user.service';
     HomeHistoryService,
     NotificationsService,
     NavbarComponent,
-    UserService
+    UserService,
+    WalletService
   ],
   entryComponents: [MessageDialog, HomeDialogComponent],
   bootstrap: [AppComponent]

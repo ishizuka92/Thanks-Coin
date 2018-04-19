@@ -1,7 +1,8 @@
 import { Component, OnInit, Inject, ViewChild, AfterViewInit } from '@angular/core';
-import {MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort} from '@angular/material';
-import {TransactionsService} from './transactions.service';
-import {MessageDialog} from '../../common/message-dialog.component';
+import { MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSort } from '@angular/material';
+
+import { TransactionsService } from './transactions.service';
+import { MessageDialog } from '../../common/message-dialog.component';
 
 
 /**
@@ -16,32 +17,33 @@ import {MessageDialog} from '../../common/message-dialog.component';
 export class TransactionsComponent implements OnInit, AfterViewInit {
   // サービス利用の宣言
   constructor(private service: TransactionsService,
-              public dialog: MatDialog) { }
+    public dialog: MatDialog) { }
 
   public displayedColumns;
   public dataSource;
 
- ngOnInit() {
-
-  // 表示項目の取得
-  this.displayedColumns = this.service.getDisplayColumns();
-  // リストの取得
-  this.service.getDataSource()
-    .subscribe(
-      // 取得成功時処理
-      res => {
-        console.log(res);
-        console.table(res);
-        this.dataSource = this.service.getDataSourceSort(res); //表示するリスト一覧  
-      } ,
-      // 取得エラー時処理（VPN接続していない等接続エラーやタイムアウト）
-      error => {  
-        alert("データ取得時エラー発生");
-      }
-    )
-  }
-  
   @ViewChild(MatSort) sort: MatSort;
+
+  ngOnInit() {
+
+    // 表示項目の取得
+    this.displayedColumns = this.service.getDisplayColumns();
+    // リストの取得
+    this.service.getDataSource()
+      .subscribe(
+        // 取得成功時処理
+        res => {
+          console.log(res);
+          console.table(res);
+          this.dataSource = this.service.getDataSourceSort(res); // 表示するリスト一覧
+        },
+        // 取得エラー時処理（VPN接続していない等接続エラーやタイムアウト）
+        error => {
+          alert('データ取得時エラー発生');
+        }
+      );
+  }
+
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;

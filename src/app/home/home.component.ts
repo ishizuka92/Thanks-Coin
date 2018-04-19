@@ -11,7 +11,7 @@ import { HomeSendService } from './home-send.service';
 import { NotificationsService } from 'angular4-notify';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Http, RequestOptions, Headers, Response } from "@angular/http";
+import { Http, RequestOptions, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { NavbarComponent } from '../shared/navbar/navbar.component';
@@ -30,14 +30,15 @@ import { map } from 'rxjs/operators/map';
   styleUrls: ['./home.component.css']
 })
 
-export class HomeComponent implements OnInit {
+
+export class HomeComponent implements OnInit, AfterViewInit {
 
   txControl: FormControl = new FormControl();
 
-  loginUser: string;
+  loginUser: User;
   assets: number;
   toUser: string;
-  amount: number = 0;
+  amount = 0;
   message: string;
   check: boolean;
   displayedColumns: string[];
@@ -50,6 +51,8 @@ export class HomeComponent implements OnInit {
   private apiUrlTransaction = 'http://10.133.210.147:3000/api/queries/selectTransaction';
   headers: Headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
   options: RequestOptions = new RequestOptions({ headers: this.headers });
+
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private homecheckservice: HomeCheckService,
     private sessionservice: SessionService,
@@ -70,25 +73,25 @@ export class HomeComponent implements OnInit {
         amount: '',
         message: '',
       }),
-    })
+    });
   }
 
   ngOnInit() {
     this.loginUser = this.sessionservice.session.user;
-    this.assets = this.homecheckservice.assetsCheck(this.loginUser);
+    this.assets = this.homecheckservice.assetsCheck(this.loginUser.id);
     this.displayedColumns = this.homehistoryservice.getDisplayColumns();
     this.homehistoryservice.getDataSource().subscribe(response => {
-      this.dataSource = this.homehistoryservice.getDataSourceByUser(this.loginUser, response);
+      this.dataSource = this.homehistoryservice.getDataSourceByUser(this.loginUser.id, response);
     });
     this.filteredUsers = this.txControl.valueChanges
       .pipe(
         startWith<string | User>(''),
         map(value => typeof value === 'string' ? value : value.id),
-        map(name => name ? this.filterUser(name) : this.sessionservice.session.users.filter(u => u.id !== this.sessionservice.session.user))
+        map(name => name ? this.filterUser(name)
+          : this.sessionservice.session.users.filter(u => u.id !== this.sessionservice.session.user.id))
       );
   }
 
-  @ViewChild(MatSort) sort: MatSort;
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
@@ -109,7 +112,7 @@ export class HomeComponent implements OnInit {
   openDialog() {
     const toUser: string = this.getDisplayUserValue(this.txControl.value);
 
-    let dialogRef = this.dialog.open(HomeDialogComponent, {
+    const dialogRef = this.dialog.open(HomeDialogComponent, {
       width: '500px',
       data: { toUser: toUser, amount: this.amount, message: this.message }
     });
@@ -121,19 +124,20 @@ export class HomeComponent implements OnInit {
         // this.postData.receiver += this.toUser;
         // this.postData.amount = this.amount;
         // this.postData.message = this.message;
-        let test = {
-          "$class": "jp.co.itone.model.TransferCoin",
-          "sender": "resource:jp.co.itone.model.Wallet#" + this.loginUser,
-          "receiver": "resource:jp.co.itone.model.Wallet#" + this.txControl.value.id,
-          "amount": "" + this.amount,
-          "message": "" + this.message
+
+        const test = {
+          '$class': 'jp.co.itone.model.TransferCoin',
+          'sender': 'resource:jp.co.itone.model.Wallet#' + this.loginUser,
+          'receiver': 'resource:jp.co.itone.model.Wallet#' + this.txControl.value.id,
+          'amount': '' + this.amount,
+          'message': '' + this.message
         };
         this.http.post(this.apiUrlTransferCoin, JSON.stringify(test), this.options)
           .subscribe(
-            result => {
+            res => {
               this.sessionservice.login(this.loginUser);
               this.homehistoryservice.getDataSource().subscribe(response => {
-                this.dataSource = this.homehistoryservice.getDataSourceByUser(this.loginUser, response);
+                this.dataSource = this.homehistoryservice.getDataSourceByUser(this.loginUser.id, response);
               });
             },
             error => console.log('error is ' + error)
@@ -145,7 +149,7 @@ export class HomeComponent implements OnInit {
   }
 
   openMessageDialog(message: string) {
-    let dialogRef = this.dialog.open(MessageDialog, {
+    const dialogRef = this.dialog.open(MessageDialog, {
       width: '500px',
       data: { messageDisp: message }
     });
@@ -153,25 +157,26 @@ export class HomeComponent implements OnInit {
 
   onClickSend() {
 
-    this.httpclient.get<ApiWalletResponse>(this.apiUrlWallet + this.loginUser).subscribe(response => {
-      if (response.amount >= this.amount && this.amount != 0) {
-        this.message = this.homecheckservice.messageCheck(this.message);
-        this.openDialog();
-      }
-      else {
-        alert('不正な金額です。');
-      }
-    });
+    this.httpclient.get<ApiWalletResponse>(this.apiUrlWallet + this.loginUser).subscribe(
+      response => {
+        if (response.amount >= this.amount && this.amount !== 0) {
+          this.message = this.homecheckservice.messageCheck(this.message);
+          this.openDialog();
+        } else {
+          alert('不正な金額です。');
+        }
+      });
   }
 
   getDisplayUserValue(user?: User): string | undefined {
-    return user ? user.lastName + user.firstName + "（" + user.id + "）" : undefined;
+    return user ? user.lastName + user.firstName + '（' + user.id + '）' : undefined;
   }
 
   private filterUser(val: string): User[] {
     return this.sessionservice.session.users
       .filter(u => u.id.indexOf(val) === 0 || u.firstName.indexOf(val) === 0 || u.lastName.indexOf(val) === 0)
-      .filter(u => u.id !== this.sessionservice.session.user);
+      .filter(u => u.id !== this.sessionservice.session.user.id);
+
   }
 
 }
