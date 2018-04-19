@@ -30,6 +30,7 @@ import { map } from 'rxjs/operators/map';
   styleUrls: ['./home.component.css']
 })
 
+
 export class HomeComponent implements OnInit, AfterViewInit {
 
   txControl: FormControl = new FormControl();
@@ -123,6 +124,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         // this.postData.receiver += this.toUser;
         // this.postData.amount = this.amount;
         // this.postData.message = this.message;
+
         const test = {
           '$class': 'jp.co.itone.model.TransferCoin',
           'sender': 'resource:jp.co.itone.model.Wallet#' + this.loginUser,
@@ -174,6 +176,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     return this.sessionservice.session.users
       .filter(u => u.id.indexOf(val) === 0 || u.firstName.indexOf(val) === 0 || u.lastName.indexOf(val) === 0)
       .filter(u => u.id !== this.sessionservice.session.user.id);
+
   }
 
 }
