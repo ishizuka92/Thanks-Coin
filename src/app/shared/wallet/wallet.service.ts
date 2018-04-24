@@ -7,7 +7,7 @@ import { Wallet } from './wallet';
 @Injectable()
 export class WalletService {
 
-  private url = 'http://10.129.23.9:3000/api/Wallet';
+  private url = 'https://10.129.23.9:3000/api/Wallet';
 
   constructor(private httpclient: HttpClient) { }
 
