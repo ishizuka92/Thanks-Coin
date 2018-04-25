@@ -10,7 +10,7 @@ import { User } from '../shared/user/user'
 
 @Injectable()
 export class HistoryService {
-  private apiUrlTransaction = 'http://10.129.23.9:3000/api/queries/selectTransaction';
+  private apiUrlTransaction = 'https://169.56.20.204:58921/api/queries/selectTransaction';
 
   constructor(private httpclient: HttpClient,
     private sessionService: SessionService) { }

@@ -14,7 +14,7 @@ export class NavbarComponent implements OnInit {
 
   public loginUser: User;
   public assets: number;
-  private apiUrl = 'http://10.129.23.9:3000/api/Wallet/';
+  private apiUrl = 'https://169.56.20.204:58921/api/Wallet/';
 
   constructor(
     private sessionservice: SessionService,
