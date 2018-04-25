@@ -7,7 +7,7 @@ import { User } from './user';
 @Injectable()
 export class UserService {
 
-    private url = 'https://10.129.23.9:3000/api/User';
+    private url = 'http://10.129.23.9:3000/api/User';
     private headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
     private httpOptions = { headers: this.headers };
 

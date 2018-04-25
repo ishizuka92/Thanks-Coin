@@ -23,7 +23,7 @@ export class TransactionsService {
   getDataSource(){
 // --------★★追加ここから★★---------
     // APIと通信
-    return this.http.get("https://10.129.23.9:3000/api/queries/selectTransaction")
+    return this.http.get("http://10.129.23.9:3000/api/queries/selectTransaction")
     .map(res => res as Element[]);
 
 // --------★★追加ここまで★★---------
