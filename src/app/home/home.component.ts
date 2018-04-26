@@ -127,7 +127,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
         const test = {
           '$class': 'jp.co.itone.model.TransferCoin',
-          'sender': 'resource:jp.co.itone.model.Wallet#' + this.loginUser,
+          'sender': 'resource:jp.co.itone.model.Wallet#' + this.loginUser.id,
           'receiver': 'resource:jp.co.itone.model.Wallet#' + this.txControl.value.id,
           'amount': '' + this.amount,
           'message': '' + this.message
@@ -157,7 +157,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   onClickSend() {
 
-    this.httpclient.get<ApiWalletResponse>(this.apiUrlWallet + this.loginUser).subscribe(
+    this.httpclient.get<ApiWalletResponse>(this.apiUrlWallet + this.loginUser.id).subscribe(
       response => {
         if (response.amount >= this.amount && this.amount !== 0) {
           this.message = this.homecheckservice.messageCheck(this.message);
