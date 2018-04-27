@@ -11,7 +11,7 @@ import { User } from '../shared/user/user'
 @Injectable()
 export class HomeHistoryService {
 
-  private apiUrlTransaction = 'https://169.56.20.204:58921/api/queries/selectTransaction';
+  private apiUrlTransaction = 'https://bc.it-one.co.jp:58921/api/queries/selectTransaction';
 
   constructor(private httpclient: HttpClient,
     private sessionService: SessionService) { }

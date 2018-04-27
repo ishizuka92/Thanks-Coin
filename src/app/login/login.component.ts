@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
 
   loginUser: string;
   loginPassword: any;
-  private apiUrl = 'https://169.56.20.204:58921/api/User';
+  private apiUrl = 'https://bc.it-one.co.jp:58921/api/User';
   check = true;
 
   constructor(

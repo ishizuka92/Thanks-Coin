@@ -8,7 +8,7 @@ import { UserService } from '../shared/user/user.service';
 @Injectable()
 export class PasswordService {
 
-  private apiUrlUser = 'https://169.56.20.204:58921/api/User';
+  private apiUrlUser = 'https://bc.it-one.co.jp:58921/api/User';
   private headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
   private httpOptions = { headers: this.headers };
 
