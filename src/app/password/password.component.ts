@@ -5,6 +5,7 @@ import { SessionService } from '../shared/session/session.service';
 import { LoginService } from '../login/login.service';
 import { PasswordService } from './password.service';
 import { User } from '../shared/user/user';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-password',
@@ -36,15 +37,24 @@ export class PasswordComponent implements OnInit {
   }
 
   onKeyOldPassword(oldPassword: any) {
-    this.oldPassword = oldPassword;
+
+    // ハッシュ化
+    const encrypted = CryptoJS.SHA256(oldPassword);
+    this.oldPassword = String(encrypted);
   }
 
   onKeyNewPassword1(newPassword1: any) {
-    this.newPassword1 = newPassword1;
+
+    // ハッシュ化
+    const encrypted = CryptoJS.SHA256(newPassword1);
+    this.newPassword1 = String(encrypted);
   }
 
   onKeyNewPassword2(newPassword2: any) {
-    this.newPassword2 = newPassword2;
+
+    // ハッシュ化
+    const encrypted = CryptoJS.SHA256(newPassword2);
+    this.newPassword2 = String(encrypted);
   }
 
   onClickChangePassword(): void {
