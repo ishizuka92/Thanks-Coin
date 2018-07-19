@@ -4,11 +4,12 @@ import { Observable } from 'rxjs/Observable';
 
 import { User } from '../shared/user/user';
 import { UserService } from '../shared/user/user.service';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class PasswordService {
 
-  private apiUrlUser = 'https://bc.it-one.co.jp:58921/api/User';
+  private apiUrlUser = `${environment.apiUrl}/User`;
   private headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
   private httpOptions = { headers: this.headers };
 

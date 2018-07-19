@@ -14,21 +14,20 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { FlexLayoutModule } from "@angular/flex-layout";
-import { NotificationsModule, NotificationsService } from 'angular4-notify';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpModule } from "@angular/http";
+import { HttpModule } from '@angular/http';
 import { MatSortModule } from '@angular/material/sort';
 
 import { AppComponent } from './app.component';
-import { HistoryComponent } from './history/history.component';
+import { HistoryModule } from './history/history.module';
 import { AppRoutingModule } from './/app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { MainComponent } from './main/main.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
 import { PasswordComponent } from './password/password.component';
-import { RankingComponent } from './ranking/ranking.component';
+import { RankingModule } from './ranking/ranking.module';
 import { TransactionsModule } from './admin/transactions/transactions.module';
 import { UsersComponent } from './admin/users/users.component';
 import { CreateComponent } from './admin/users/create/create.component';
@@ -47,13 +46,11 @@ import { WalletService } from './shared/wallet/wallet.service';
 @NgModule({
   declarations: [
     AppComponent,
-    HistoryComponent,
     HomeComponent,
     MainComponent,
     NavbarComponent,
     LoginComponent,
     PasswordComponent,
-    RankingComponent,
     // TransactionsComponent,
     UsersComponent,
     CreateComponent,
@@ -77,11 +74,12 @@ import { WalletService } from './shared/wallet/wallet.service';
     RouterModule,
     MatGridListModule,
     FlexLayoutModule,
-    NotificationsModule,
     HttpClientModule,
     HttpModule,
     MatSortModule,
-    TransactionsModule
+    TransactionsModule,
+    HistoryModule,
+    RankingModule
   ],
   providers: [
     SessionService,
@@ -91,7 +89,6 @@ import { WalletService } from './shared/wallet/wallet.service';
     PasswordService,
     HomeSendService,
     HomeHistoryService,
-    NotificationsService,
     NavbarComponent,
     UserService,
     WalletService
