@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 
+import { environment } from '../../../environments/environment';
+
 @Injectable()
 export class TransactionsService {
   constructor(private http:HttpClient) { }
@@ -23,7 +25,7 @@ export class TransactionsService {
   getDataSource(){
 // --------★★追加ここから★★---------
     // APIと通信
-    return this.http.get("https://bc.it-one.co.jp:58921/api/queries/selectTransaction")
+    return this.http.get(`${environment.apiUrl}/queries/selectTransaction`)
     .map(res => res as Element[]);
 
 // --------★★追加ここまで★★---------

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { SessionService, Session } from '../session/session.service';
 import { HomeCheckService } from '../../home/home-check.service';
 import { User } from '../user/user';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -14,7 +15,7 @@ export class NavbarComponent implements OnInit {
 
   public loginUser: User;
   public assets: number;
-  private apiUrl = 'https://bc.it-one.co.jp:58921/api/Wallet/';
+  private apiUrl = `${environment.apiUrl}/Wallet/`;
 
   constructor(
     private sessionservice: SessionService,

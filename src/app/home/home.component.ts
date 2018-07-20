@@ -8,7 +8,6 @@ import { DataSource } from '@angular/cdk/collections';
 import { HistoryElement } from './mock-home';
 import { MessageDialog } from '../common/message-dialog.component';
 import { HomeSendService } from './home-send.service';
-import { NotificationsService } from 'angular4-notify';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Http, RequestOptions, Headers, Response } from '@angular/http';
@@ -19,6 +18,7 @@ import { Router } from '@angular/router';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+import { environment } from '../../environments/environment';
 import { User } from '../shared/user/user';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
@@ -45,10 +45,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<HistoryElement>;
   form: FormGroup;
   filteredUsers: Observable<User[]>;
-  private apiUrlUser = 'https://bc.it-one.co.jp:58921/api/User';
-  private apiUrlTransferCoin = 'https://bc.it-one.co.jp:58921/api/TransferCoin';
-  private apiUrlWallet = 'https://bc.it-one.co.jp:58921/api/Wallet/';
-  private apiUrlTransaction = 'https://bc.it-one.co.jp:58921/api/queries/selectTransaction';
+  private apiUrlUser = `${environment.apiUrl}/User`;
+  private apiUrlTransferCoin = `${environment.apiUrl}/TransferCoin`;
+  private apiUrlWallet = `${environment.apiUrl}/Wallet/`;
+  private apiUrlTransaction = `${environment.apiUrl}/queries/selectTransaction`;
   headers: Headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
   options: RequestOptions = new RequestOptions({ headers: this.headers });
 
@@ -60,7 +60,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     private homehistoryservice: HomeHistoryService,
     private homesendservice: HomeSendService,
     private changedetectorref: ChangeDetectorRef,
-    private notificationsService: NotificationsService,
     private formbuilder: FormBuilder,
     private http: Http,
     private httpclient: HttpClient,

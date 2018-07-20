@@ -5,12 +5,13 @@ import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 
+import { environment } from '../../environments/environment';
 import { SessionService } from '../shared/session/session.service';
 import { User } from '../shared/user/user'
 
 @Injectable()
 export class HistoryService {
-  private apiUrlTransaction = 'https://bc.it-one.co.jp:58921/api/queries/selectTransaction';
+  private apiUrlTransaction = `${environment.apiUrl}/queries/selectTransaction`;
 
   constructor(private httpclient: HttpClient,
     private sessionService: SessionService) { }
