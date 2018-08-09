@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { User } from './user';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class UserService {
 
-    private url = 'https://bc.it-one.co.jp:58921/api/User';
+    private url = `${environment.apiUrl}/User`;
     private headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' });
     private httpOptions = { headers: this.headers };
 
@@ -22,6 +23,11 @@ export class UserService {
         body.password = newPassword;
         return this.httpclient.put<User>(`${this.url}/${user.id}`, body, this.httpOptions);
 
+    }
+
+    // IDからUser情報を取得する
+    getNameFromId(paramId: any): Observable<User> {
+        return this.httpclient.get<User>(this.url + "/" + paramId);
     }
 
 
