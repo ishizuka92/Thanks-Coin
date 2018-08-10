@@ -1,5 +1,7 @@
-import {Component, ViewChild} from '@angular/core';
-import {MatTableDataSource} from '@angular/material';
+import {Component,OnInit, ViewChild, AfterViewInit} from '@angular/core';
+import {MatTableDataSource, MatSort} from '@angular/material';
+import { User } from '../shared/User/user';
+import { UserService} from '../shared/user/user.service';
 import { RankingService } from './ranking.service';
 
 /**
@@ -11,13 +13,33 @@ import { RankingService } from './ranking.service';
   templateUrl: './ranking.component.html',
   styleUrls: ['./ranking.component.css']
 })
-export class RankingComponent {
+export class RankingComponent implements OnInit, AfterViewInit{
 
   // サービス利用の宣言
   constructor(private service: RankingService) { }
 
+  public displayedColumns;
+  public dataSource;
+
+  @ViewChild(MatSort) sort: MatSort;
+
+  ngOnInit(){
   // 表示項目の取得
-  displayedColumns = this.service.getDisplayColumns();
+  this.displayedColumns = this.service.getDisplayColumns();
   // リストの取得
-  dataSource = this.service.getDataSource();
+  this.service.getDataSource()
+    .subscribe(
+      res => {
+        this.dataSource = this.service.getDataSourceDetail(res);
+      },
+      error => {
+        alert('データ取得時エラー発生');
+      }
+    );
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+  }
+
 }

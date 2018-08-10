@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { User } from './user';
@@ -23,6 +23,11 @@ export class UserService {
         body.password = newPassword;
         return this.httpclient.put<User>(`${this.url}/${user.id}`, body, this.httpOptions);
 
+    }
+
+    // IDからUser情報を取得する
+    getNameFromId(paramId: any): Observable<User> {
+        return this.httpclient.get<User>(this.url + "/" + paramId);
     }
 
 

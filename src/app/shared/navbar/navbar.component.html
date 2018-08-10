@@ -32,10 +32,10 @@
         </a>
       </button>
       <button *ngIf="loginUser" mat-menu-item>
-        <!-- <a routerLink="/ranking"> -->
+        <a routerLink="/ranking">
           <mat-icon class="example-icon">grade</mat-icon>
           <span>ランキング</span>
-        <!-- </a> -->
+        </a>
       </button>
       <button *ngIf="loginUser && loginUser.isAdmin" mat-menu-item>
         <a routerLink="/admin/transactions">
