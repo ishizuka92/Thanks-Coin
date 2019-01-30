@@ -8,17 +8,22 @@ import { DataSource } from '@angular/cdk/collections';
 import { HistoryElement } from './mock-home';
 import { MessageDialog } from '../common/message-dialog.component';
 import { HomeSendService } from './home-send.service';
-import { NotificationsService } from 'angular4-notify';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Http, RequestOptions, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+
+// ローディング用
+import { Overlay } from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { MatSpinner } from '@angular/material/progress-spinner';
 
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+import { environment } from '../../environments/environment';
 import { User } from '../shared/user/user';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
@@ -45,12 +50,19 @@ export class HomeComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<HistoryElement>;
   form: FormGroup;
   filteredUsers: Observable<User[]>;
-  private apiUrlUser = 'https://bc.it-one.co.jp:58921/api/User';
-  private apiUrlTransferCoin = 'https://bc.it-one.co.jp:58921/api/TransferCoin';
-  private apiUrlWallet = 'https://bc.it-one.co.jp:58921/api/Wallet/';
-  private apiUrlTransaction = 'https://bc.it-one.co.jp:58921/api/queries/selectTransaction';
+  private apiUrlUser = `${environment.apiUrl}/User`;
+  private apiUrlTransferCoin = `${environment.apiUrl}/TransferCoin`;
+  private apiUrlWallet = `${environment.apiUrl}/Wallet/`;
+  private apiUrlTransaction = `${environment.apiUrl}/queries/selectTransaction`;
   headers: Headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8' });
   options: RequestOptions = new RequestOptions({ headers: this.headers });
+
+  // ローディング用
+  spinner = this.overlay.create({
+    hasBackdrop: true,
+    positionStrategy: this.overlay
+      .position().global().centerHorizontally().centerVertically()
+  });
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -60,12 +72,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
     private homehistoryservice: HomeHistoryService,
     private homesendservice: HomeSendService,
     private changedetectorref: ChangeDetectorRef,
-    private notificationsService: NotificationsService,
     private formbuilder: FormBuilder,
     private http: Http,
     private httpclient: HttpClient,
     private nav: NavbarComponent,
     private router: Router,
+    private overlay: Overlay
   ) {
     this.form = formbuilder.group({
       name: formbuilder.group({
@@ -81,8 +93,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.assets = this.homecheckservice.assetsCheck(this.loginUser.id);
     this.displayedColumns = this.homehistoryservice.getDisplayColumns();
     this.homehistoryservice.getDataSource().subscribe(response => {
-      this.dataSource = this.homehistoryservice.getDataSourceByUser(this.loginUser.id, response);
+    this.dataSource = this.homehistoryservice.getDataSourceByUser(this.loginUser.id, response);
     });
+
     this.filteredUsers = this.txControl.valueChanges
       .pipe(
         startWith<string | User>(''),
@@ -90,8 +103,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         map(name => name ? this.filterUser(name)
           : this.sessionservice.session.users.filter(u => u.id !== this.sessionservice.session.user.id))
       );
-  }
-
+  }  
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
@@ -132,20 +144,26 @@ export class HomeComponent implements OnInit, AfterViewInit {
           'amount': '' + this.amount,
           'message': '' + this.message
         };
+
+        
+        // ロード表示開始
+        this.spinner.attach(new ComponentPortal(MatSpinner));
+
         this.http.post(this.apiUrlTransferCoin, JSON.stringify(test), this.options)
           .subscribe(
             res => {
               this.sessionservice.login(this.loginUser);
               this.homehistoryservice.getDataSource().subscribe(response => {
                 this.dataSource = this.homehistoryservice.getDataSourceByUser(this.loginUser.id, response);
+                // ロード表示終了
+                this.spinner.detach();
               });
             },
             error => console.log('error is ' + error)
           );
-        this.form.reset();
+          this.form.reset();
       }
     });
-
   }
 
   openMessageDialog(message: string) {
@@ -157,12 +175,19 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   onClickSend() {
 
+    // ロード表示開始
+    this.spinner.attach(new ComponentPortal(MatSpinner));
+
     this.httpclient.get<ApiWalletResponse>(this.apiUrlWallet + this.loginUser.id).subscribe(
       response => {
         if (response.amount >= this.amount && this.amount !== 0) {
           this.message = this.homecheckservice.messageCheck(this.message);
+          // ロード表示終了
+          this.spinner.detach();
           this.openDialog();
         } else {
+          // ロード表示終了
+          this.spinner.detach();
           alert('不正な金額です。');
         }
       });
