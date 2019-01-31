@@ -84,9 +84,9 @@ import { WalletService } from './shared/wallet/wallet.service';
     TransactionsModule,
     HistoryModule,
     RankingModule,
-
     MatProgressSpinnerModule,
     OverlayModule
+    RankingModule
   ],
   providers: [
     SessionService,

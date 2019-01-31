@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { Wallet } from './wallet';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class WalletService {
 
-  private url = 'https://bc.it-one.co.jp:58921/api/Wallet';
+  private url = `${environment.apiUrl}/Wallet`;
 
   constructor(private httpclient: HttpClient) { }
 
