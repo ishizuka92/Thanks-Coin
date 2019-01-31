@@ -1,0 +1,90 @@
+<div fxLayoutWrap>
+  <!-- <mat-grid-list cols="3" rowHeight="1:1.6" >
+<mat-grid-tile colspan="1"> -->
+  <!-- <div class="example-container" fxFlex> -->
+  <div fxFlex="33.3" fxFlex.sm="33.3" fxFlex.xs="100">
+    <h1>
+      ありがとうを送る
+    </h1>
+    <mat-card class="example-card">
+      <form [formGroup]="form">
+        <div formGroupName="name">
+          <mat-form-field class="example-form">
+            <mat-placeholder>
+              <mat-icon class="example-icon">face</mat-icon>送金先ユーザー
+            </mat-placeholder>
+            <input matInput formControlName="toUser" #toUser (keyup)="onKeyTo(toUser.value)" [matAutocomplete]="auto" [formControl]="txControl">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="getDisplayUserValue">
+              <mat-option *ngFor="let user of filteredUsers | async" [value]="user">
+                {{ getDisplayUserValue(user) }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field class="example-form">
+            <mat-placeholder>
+              <mat-icon class="example-icon">attach_money</mat-icon>金額
+            </mat-placeholder>
+            <input matInput formControlName="amount" type="number" class="example-right-align" #amount (keyup)="onKeyAmount(amount.value)">
+          </mat-form-field>
+          <mat-form-field class="example-form">
+            <mat-placeholder>
+              <mat-icon class="example-icon">comment</mat-icon>メッセージ
+            </mat-placeholder>
+            <textarea formControlName="message" matInput maxlength="256" #message (keyup)="onKeyMessage(message.value)" (keyup.enter)="onClickSend()"></textarea>
+            <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+          </mat-form-field>
+          <button mat-raised-button color="primary" class="example-button-row" (click)="onClickSend()">送金</button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+  <!-- </mat-grid-tile> -->
+
+  <!-- <mat-grid-tile colspan="2"> -->
+  <div fxFlex="66.6" fxFlex.sm="66.6" fxFlex.xs="100">
+    <h1>
+      メッセージ
+    </h1>
+    <div class="example-container-table mat-elevation-z8">
+      <mat-table #table [dataSource]="dataSource" matSort>
+        <!-- Time Column -->
+        <ng-container matColumnDef="time">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 日時 </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.timestamp | date:'yyyy-MM-dd HH:mm'}} </mat-cell>
+        </ng-container>
+        <!-- From Column -->
+        <ng-container matColumnDef="from">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 送信者 </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.sender}} </mat-cell>
+        </ng-container>
+        <!-- To Column -->
+        <ng-container matColumnDef="to">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 受信者 </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.receiver}} </mat-cell>
+        </ng-container>
+        <!-- Amount Column -->
+        <ng-container matColumnDef="amount">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> 金額 </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
+        </ng-container>
+        <!-- Message Column -->
+        <!-- <ng-container matColumnDef="message">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> メッセージ </mat-header-cell>
+          <mat-cell *matCellDef="let element"> 
+            <button mat-raised-button color="primary" *ngIf="element.message.length > 17" (click)="openMessageDialog(element.message)">メッセージ</button>
+          </mat-cell>
+        </ng-container> -->
+        <ng-container matColumnDef="message">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            メッセージ
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.message}} </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </div>
+  <!-- </mat-grid-tile>
+</mat-grid-list> -->
+</div>

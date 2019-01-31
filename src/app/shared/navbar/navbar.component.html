@@ -1,0 +1,64 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <a routerLink="/home">
+      <img alt="Coin" src="assets/coins.ico">
+    </a>
+    <span>ThanksCoin</span>
+    <span class="example-spacer"></span>
+    <mat-icon *ngIf="loginUser" class="example-icon">account_circle</mat-icon>
+    <span *ngIf="loginUser">{{loginUser?.lastName + loginUser?.firstName + "さん"}}</span>
+    <mat-icon *ngIf="assets" class="example-icon">account_balance</mat-icon>
+    <span *ngIf="loginUser">{{assets | number}}</span>
+    <button mat-button [matMenuTriggerFor]="menu">
+      <mat-icon class="example-icon">more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button *ngIf="loginUser" mat-menu-item>
+        <a routerLink="/home">
+          <mat-icon class="example-icon">home</mat-icon>
+          <span>ホーム</span>
+        </a>
+      </button>
+      <button *ngIf="loginUser" mat-menu-item>
+        <a routerLink="/history">
+          <mat-icon class="example-icon">history</mat-icon>
+          <span>送受信履歴</span>
+        </a>
+      </button>
+      <button *ngIf="loginUser" mat-menu-item>
+        <a routerLink="/password">
+          <mat-icon class="example-icon">lock_outline</mat-icon>
+          <span>パスワード変更</span>
+        </a>
+      </button>
+      <button *ngIf="loginUser" mat-menu-item>
+        <a routerLink="/ranking">
+          <mat-icon class="example-icon">grade</mat-icon>
+          <span>ランキング</span>
+        </a>
+      </button>
+      <button *ngIf="loginUser && loginUser.isAdmin" mat-menu-item>
+        <a routerLink="/admin/transactions">
+          <mat-icon class="example-icon">build</mat-icon>
+          <span>すべての送受信履歴</span>
+        </a>
+      </button>
+      <button *ngIf="loginUser && loginUser.isAdmin" mat-menu-item>
+        <!-- <a routerLink="/admin/users"> -->
+          <mat-icon class="example-icon">people</mat-icon>
+          <span>ユーザー管理</span>
+        <!-- </a> -->
+      </button>
+      <button *ngIf="loginUser" mat-menu-item>
+        <mat-icon class="example-icon">exit_to_app</mat-icon>
+        <span (click)="logout()">ログアウト</span>
+      </button>
+      <button *ngIf="loginUser == null" mat-menu-item>
+        <a routerLink="login">
+          <mat-icon class="example-icon">directions_walk</mat-icon>
+          <span>ログイン</span>
+        </a>
+      </button>
+    </mat-menu>
+  </mat-toolbar-row>
+</mat-toolbar>

@@ -1,0 +1,38 @@
+<div class="center">
+  <h1>
+    ランキング
+  </h1>
+</div>
+<div class="example-container">
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+      <!-- 社員番号 -->
+      <!--<ng-container matColumnDef="position"> -->
+        <!--<mat-header-cell *matHeaderCellDef> -->
+          <!-- No. <!--<i class="material-icons">account_circle</i> -->
+        <!--</mat-header-cell> -->
+        <!--<mat-cell *matCellDef="let element"> {{element.position}} </mat-cell> -->
+     <!-- </ng-container> -->
+
+      <!-- 氏名 -->
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef>
+           ユーザーID <!--<i class="material-icons">face</i> -->
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+      </ng-container>
+
+      <!-- 所持コイン -->
+      <ng-container matColumnDef="amount">
+        <mat-header-cell *matHeaderCellDef>
+           総資産 <!--<i class="material-icons">attach_money</i> -->
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.amount}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+</div>
+

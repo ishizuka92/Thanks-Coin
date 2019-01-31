@@ -1,0 +1,20 @@
+<div class="example-container">
+  <h1>
+    Thanks Coin
+  </h1>
+    <mat-card class="example-card">
+      <mat-form-field class="example-form">
+        <mat-placeholder>
+            <mat-icon class="example-icon">account_circle</mat-icon>ユーザーID
+        </mat-placeholder>
+        <input matInput class="example-right-align" #loginUser (keyup)="onKeyUser(loginUser.value)">
+      </mat-form-field>
+      <mat-form-field class="example-form">
+        <mat-placeholder>
+            <mat-icon class="example-icon">lock</mat-icon>パスワード 
+        </mat-placeholder>
+        <input matInput type="password" class="example-right-align" #loginPassword (keyup)="onKeyPassword(loginPassword.value)" (keyup.enter)="onClickLogin()" >
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="example-button-row" (click)="onClickLogin()">ログイン</button>
+    </mat-card>
+</div>

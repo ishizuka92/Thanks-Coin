@@ -1,0 +1,50 @@
+<div class="center">
+  <h1>
+    ユーザー管理
+  </h1>
+</div>
+<div class="example-container">
+  <mat-table #table [dataSource]="users" matSort>
+
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        ID
+      </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.id }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="fullName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        氏名
+      </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.lastName + user.firstName}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dept">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        所属
+      </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.dept}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        所持コイン
+      </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.amount}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="pw">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        パスワード初期化
+      </mat-header-cell>
+      <mat-cell *matCellDef="let user">
+        <button mat-raised-button color="primary" class="example-button-row" (click)="onClickPwInitialize(user)">初期化</button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+  </mat-table>
+</div>
